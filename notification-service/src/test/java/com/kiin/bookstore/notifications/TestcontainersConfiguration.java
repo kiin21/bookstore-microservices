@@ -7,7 +7,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.utility.DockerImageName;
 
-
 @TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
     @Bean
