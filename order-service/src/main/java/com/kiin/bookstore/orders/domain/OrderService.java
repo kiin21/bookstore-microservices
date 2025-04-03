@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
-    private static final List<String> DELIVERY_ALLOWED_COUNTRIES = List.of("INDIA", "USA", "GERMANY", "UK");
+    private static final List<String> DELIVERY_ALLOWED_COUNTRIES = List.of("INDIA", "USA", "GERMANY", "UK", "VN");
 
     private final OrderRepository orderRepository;
     private final OrderValidator orderValidator;
