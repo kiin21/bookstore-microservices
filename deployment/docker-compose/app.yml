@@ -85,7 +85,7 @@ services:
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - CATALOG_SERVICE_URL=http://notifications-service:8081
+      - CATALOG_SERVICE_URL=http://catalog-service:8081
       - ORDER_SERVICE_URL=http://orders-service:8082
     ports:
       - "8989:8989"
