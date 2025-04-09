@@ -8,9 +8,12 @@ document.addEventListener('alpine:init', () => {
             this.loadProducts(this.pageNo);
         },
         loadProducts(pageNo) {
-                $.getJSON("http://localhost:8989/catalog/api/products?page=" + pageNo, (res) => {
+                $.getJSON("/api/products?page=" + pageNo, (res) => {
                 this.products = res;
             })
+        },
+        addToCart(product) {
+            addProductToCart(product);
         }
     }))
 })
