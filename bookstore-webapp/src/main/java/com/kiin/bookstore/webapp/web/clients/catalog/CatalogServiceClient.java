@@ -11,5 +11,4 @@ public interface CatalogServiceClient {
 
     @GetExchange("/catalog/api/products{code")
     PagedResult<Product> getProductByCode(@PathVariable String code);
-
 }

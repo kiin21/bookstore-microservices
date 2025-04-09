@@ -3,14 +3,13 @@ package com.kiin.bookstore.webapp.web.controllers;
 import com.kiin.bookstore.webapp.web.clients.orders.*;
 import com.kiin.bookstore.webapp.web.clients.services.SecurityHelper;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @Controller
 class OrderController {
@@ -34,7 +33,7 @@ class OrderController {
         log.info("Creating order: {}", orderRequest);
         String accessToken = securityHelper.getAccessToken();
         Map<String, ?> headers = Map.of("Authorization", "Bearer " + accessToken);
-        OrderConfirmationDTO res =  orderServiceClient.createOrder(headers, orderRequest);
+        OrderConfirmationDTO res = orderServiceClient.createOrder(headers, orderRequest);
         return res;
     }
 
@@ -66,5 +65,4 @@ class OrderController {
         Map<String, ?> headers = Map.of("Authorization", "Bearer " + accessToken);
         return orderServiceClient.getOrders(headers);
     }
-
 }

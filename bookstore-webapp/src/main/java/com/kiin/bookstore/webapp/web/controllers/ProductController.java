@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 class ProductController {
     CatalogServiceClient catalogServiceClient;
+
     ProductController(CatalogServiceClient catalogServiceClient) {
         this.catalogServiceClient = catalogServiceClient;
     }
