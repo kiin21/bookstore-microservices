@@ -1,7 +1,6 @@
 package com.kiin.bookstore.catalog.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import java.util.List;
@@ -21,8 +20,7 @@ class OpenAPI3Configuration {
                 .info(new Info()
                         .title("Catalog Service APIs")
                         .description("BookStore Catalog Service APIs")
-                        .version("v1.0.0")
-                        .contact(new Contact().name("SivaLabs").email("sivalabs@sivalabs.in")))
+                        .version("v1.0.0"))
                 .servers(List.of(new Server().url(apiGatewayUrl)));
     }
 }
