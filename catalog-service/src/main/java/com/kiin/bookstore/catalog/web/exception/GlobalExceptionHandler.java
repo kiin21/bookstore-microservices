@@ -15,10 +15,9 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final URI ISE_FOUND_TYPE = URI.create("https://api.bookstore.com/errors/server-error");
     private static final String SERVICE_NAME = "catalog-service";
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class) // General handler
     ProblemDetail handleUnhandledException(Exception e) {
-        ProblemDetail problemDetail =
-                ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         problemDetail.setTitle("Internal Server Error");
         problemDetail.setType(ISE_FOUND_TYPE);
         problemDetail.setProperty("service", SERVICE_NAME);
@@ -27,7 +26,7 @@ class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
+    @ExceptionHandler(ProductNotFoundException.class) // Product not found handler
     ProblemDetail handleProductNotFoundException(ProductNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         problemDetail.setTitle("Product Not Found");

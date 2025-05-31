@@ -1,6 +1,6 @@
 package com.kiin.bookstore.gateway;
 
-import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL;
+import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL; //v3/api-docs/
 
 import jakarta.annotation.PostConstruct;
 import java.util.HashSet;
@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 class SwaggerConfig {
+    // Lay cac route duoc dinh nghia trong yml (ID, target URL, predicates, filters)
     private final RouteDefinitionLocator locator;
     private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
@@ -22,6 +23,7 @@ class SwaggerConfig {
         this.swaggerUiConfigProperties = swaggerUiConfigProperties;
     }
 
+    // Su dung @PostConstruct de khoi tao sau khi DI hoan tat
     @PostConstruct
     public void init() {
         List<RouteDefinition> definitions =

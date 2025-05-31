@@ -19,8 +19,8 @@ class OrderProcessingJob {
         this.orderService = orderService;
     }
 
-    @Scheduled(cron = "${orders.new-orders-job-cron}")
-    @SchedulerLock(name = "processNewOrders")
+    @Scheduled(cron = "${orders.new-orders-job-cron}") // chay cronjob moi 5m
+    @SchedulerLock(name = "processNewOrders") // lock
     public void processNewOrders() {
         LockAssert.assertLocked();
         log.info("Processing new orders at {}", Instant.now());

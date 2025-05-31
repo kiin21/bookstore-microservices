@@ -8,6 +8,7 @@ distributor:
         grpc:
         http:
     zipkin:
+      endpoint: 0.0.0.0:9411
 
 ingester:
   trace_idle_period: 10s
@@ -17,10 +18,10 @@ ingester:
 compactor:
   compaction:
     compaction_window: 1h
-    max_compaction_objects: 100000
+    max_compaction_objects: 1000000
     block_retention: 1h
     compacted_block_retention: 10m
-  
+
 storage:
   trace:
     backend: local
@@ -29,9 +30,3 @@ storage:
     pool:
       max_workers: 100
       queue_depth: 10000
-
-
-
-
-
-

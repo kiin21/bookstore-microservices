@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@EnableScheduling
-@EnableSchedulerLock(defaultLockAtMostFor = "10m")
+@EnableScheduling // dung voi @Scheduled de tao cronjob
+@EnableSchedulerLock(defaultLockAtMostFor = "10m") // Dam bao cac task chi chay 1 lan
 public class OrderServiceApplication {
 
     public static void main(String[] args) {

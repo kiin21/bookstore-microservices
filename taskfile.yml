@@ -13,6 +13,7 @@ tasks:
   default:
     cmds:
       - task: test
+
   test:
     deps: [format]
     cmds:
@@ -30,6 +31,7 @@ tasks:
       - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests"
       - "{{.MVNW}} -pl bookstore-webapp spring-boot:build-image -DskipTests"
 
+  ### Infrastructure ###
   start_infra:
     cmds:
       - "docker compose -f {{.INFRA_DC_FILE}} up -d"
@@ -45,6 +47,16 @@ tasks:
       - task: sleep
       - task: start_infra
 
+  ### Push image ###
+  pushImage:
+    cmds:
+      - "docker push anhkhoa217/bookstore-catalog-service:latest"
+      - "docker push anhkhoa217/bookstore-order-service:latest"
+      - "docker push anhkhoa217/bookstore-notification-service:latest"
+      - "docker push anhkhoa217/bookstore-api-gateway:latest"
+      - "docker push anhkhoa217/bookstore-webapp:latest"
+
+  ### Monitoring ###
   start_monitoring:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
@@ -60,8 +72,9 @@ tasks:
       - task: sleep
       - task: start_monitoring
 
+  ### Main application ###
   start:
-    deps: [build]
+#    deps: [build]
     cmds:
       - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
@@ -75,7 +88,7 @@ tasks:
       - task: stop
       - task: sleep
       - task: start
-
+  ### Chore: sleep ###
   sleep:
     vars:
       DURATION: "{{default 5 .DURATION}}"
