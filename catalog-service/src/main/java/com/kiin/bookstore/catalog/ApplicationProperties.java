@@ -6,6 +6,6 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.validation.annotation.Validated;
 
 // Lay properties tu file cau hinh (yml)
-@Validated // Throw exception neu cau hinh loi 
+@Validated // Throw exception neu cau hinh loi
 @ConfigurationProperties(prefix = "catalog")
 public record ApplicationProperties(@DefaultValue("10") @Min(1) int pageSize) {}

@@ -1,6 +1,6 @@
 package com.kiin.bookstore.gateway;
 
-import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL; //v3/api-docs/
+import static org.springdoc.core.utils.Constants.DEFAULT_API_DOCS_URL;
 
 import jakarta.annotation.PostConstruct;
 import java.util.HashSet;
