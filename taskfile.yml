@@ -48,7 +48,7 @@ tasks:
       - task: start_infra
 
   ### Push image ###
-  pushImage:
+  pushImages:
     cmds:
       - "docker push anhkhoa217/bookstore-catalog-service:latest"
       - "docker push anhkhoa217/bookstore-order-service:latest"
@@ -74,7 +74,7 @@ tasks:
 
   ### Main application ###
   start:
-    deps: [format, build]
+    # deps: [format, build]
     cmds:
       - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
@@ -94,3 +94,8 @@ tasks:
       DURATION: "{{default 5 .DURATION}}"
     cmds:
       - "{{.SLEEP_CMD}} {{.DURATION}}"
+
+  clean:
+    cmds:
+      - docker system prune -af
+      - docker volume prune -af

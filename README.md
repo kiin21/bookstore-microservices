@@ -180,6 +180,12 @@ The **API Gateway** is built using Spring Cloud Gateway
 
 ---
 
+## RabbitMQ config:
+
+- RabbitMQ is used for event-driven communication between services.
+![Alt text](docs/images/rabbitmq.png)
+---
+
 ## Development
 
 **Code Style**

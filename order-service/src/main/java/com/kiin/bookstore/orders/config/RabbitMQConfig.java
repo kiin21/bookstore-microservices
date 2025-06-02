@@ -23,7 +23,7 @@ class RabbitMQConfig {
 
     @Bean
     DirectExchange exchange() {
-        return new DirectExchange(properties.orderEventsExchange());
+        return new DirectExchange(properties.orderEventsExchange());// ten exchange
     }
 
     @Bean

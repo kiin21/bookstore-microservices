@@ -10,6 +10,7 @@ distributor:
     zipkin:
       endpoint: 0.0.0.0:9411
 
+
 ingester:
   trace_idle_period: 10s
   max_block_bytes: 1_000_000
