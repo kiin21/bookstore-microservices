@@ -1,25 +1,11 @@
+# API Gateway Configuration
 server:
     port: 8989
     shutdown: graceful
 
-management:
-    endpoints:
-        web:
-            exposure:
-                include: "*"
-    metrics:
-        tags:
-            application: ${spring.application.name}
-    tracing:
-        enabled: false
-        sampling:
-            probability: 1.0
-
 spring:
     application:
         name: api-gateway
-    config:
-        import: optional:configserver:http://localhost:8888/
     cloud:
         gateway:
             discovery:
@@ -53,16 +39,25 @@ spring:
                       - RewritePath=/v3/api-docs/?(?<segment>.*), /${segment}/v3/api-docs
             default-filters:
                 - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
-
     mvc:
         problemdetails:
             enabled: true
 
+# Actuator Configuration
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    metrics:
+        tags:
+            application: ${spring.application.name}
+    tracing:
+        enabled: false
+        sampling:
+            probability: 1.0
+
+# Swagger Configuration
 springdoc:
     swagger-ui:
         use-root-path: true
-#    urls:
-#      - name: catalog
-#        url: /v3/api-docs/catalog
-#      - name: orders
-#        url: /v3/api-docs/orders
