@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: bookstore-webapp
+  config:
+    import: optional:configserver:http://localhost:8888/
+
+server:
+  port: 8080
+  shutdown: graceful

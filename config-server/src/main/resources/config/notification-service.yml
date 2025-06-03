@@ -1,60 +1,60 @@
 # Notification Service Configuration
 server:
-    port: 8083
-    shutdown: graceful
+  port: 8083
+  shutdown: graceful
 
 spring:
-    application:
-        name: notification-service
-    datasource:
-        url: ${DB_URL:jdbc:postgresql://localhost:35432/postgres}
-        username: ${DB_USERNAME:postgres}
-        password: ${DB_PASSWORD:postgres}
-    jpa:
-        open-in-view: false
-        show-sql: true
-        hibernate:
-            ddl-auto: update
-    rabbitmq:
-        host: ${RABBITMQ_HOST:localhost}
-        port: ${RABBITMQ_PORT:5672}
-        username: ${RABBITMQ_USERNAME:guest}
-        password: ${RABBITMQ_PASSWORD:guest}
-    mail:
-        host: ${MAIL_HOST:127.0.0.1}
-        port: ${MAIL_PORT:1025}
-        username: ${MAIL_USERNAME:USERNAME}
-        password: ${MAIL_PASSWORD:PASSWORD}
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
+  application:
+    name: notification-service
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:35432/postgres}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  mail:
+    host: ${MAIL_HOST:127.0.0.1}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:USERNAME}
+    password: ${MAIL_PASSWORD:PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 # Notification Service Specific Configuration
 notifications:
-    support-email: test@gmail.com
-    catalog-service-url: http://localhost:8081
-    order-events-exchange: orders-exchange
-    new-orders-queue: new-orders
-    delivered-orders-queue: delivered-orders
-    cancelled-orders-queue: cancelled-orders
-    error-orders-queue: error-orders
+  support-email: test@gmail.com
+  catalog-service-url: http://localhost:8081
+  order-events-exchange: orders-exchange
+  new-orders-queue: new-orders
+  delivered-orders-queue: delivered-orders
+  cancelled-orders-queue: cancelled-orders
+  error-orders-queue: error-orders
 
 # Actuator Configuration
 management:
-    info:
-        git:
-            mode: full
-    endpoints:
-        web:
-            exposure:
-                include: "*"
-    metrics:
-        tags:
-            application: ${spring.application.name}
-    tracing:
-        enabled: false
-        sampling:
-            probability: 1.0
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1.0

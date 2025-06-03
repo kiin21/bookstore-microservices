@@ -9,6 +9,6 @@ public interface CatalogServiceClient {
     @GetExchange("/catalog/api/products")
     PagedResult<Product> getProducts(@RequestParam int page);
 
-    @GetExchange("/catalog/api/products{code")
-    PagedResult<Product> getProductByCode(@PathVariable String code);
+    @GetExchange("/catalog/api/products/{code}")
+    Product getProductByCode(@PathVariable String code);
 }

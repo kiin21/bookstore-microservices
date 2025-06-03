@@ -1,0 +1,27 @@
+spring:
+    application:
+        name: config-server
+    profiles:
+        active: native
+    cloud:
+        config:
+            server:
+                native:
+                    search-locations: classpath:/config/
+#                git:
+#                    uri: https://github.com/kiin21/bookstore-microservices-config
+#                    default-label: main
+
+server:
+    port: 8888
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+# Logging
+logging:
+    level:
+        org.springframework.cloud.config: DEBUG
