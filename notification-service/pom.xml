@@ -12,6 +12,11 @@
 	<name>notification-service</name>
 	<description>Notification Service for sending emails and messages</description>
 
+	<properties>
+		<docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+		<docker.image.exposed.port>8083</docker.image.exposed.port>
+	</properties>
+
 	<dependencies>
 		<!-- Spring Boot Starters -->
 		<dependency>

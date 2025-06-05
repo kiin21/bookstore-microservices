@@ -35,9 +35,20 @@
         <wiremock.version>3.13.0</wiremock.version>
         <wiremock-testcontainers.version>1.0-alpha-15</wiremock-testcontainers.version>
         <instancio.version>5.4.1</instancio.version>
-
-        <!-- Docker image name pattern -->
-        <dockerImageName>anhkhoa217/bookstore-${project.artifactId}</dockerImageName>
+        
+        <!-- Docker build properties -->
+        <docker.image.tag>latest</docker.image.tag>
+        <docker.image.prefix>anhkhoa217</docker.image.prefix>
+        <docker.image.exposed.port>8080</docker.image.exposed.port>
+        <docker.image.dockerfile.dir>${basedir}/docker</docker.image.dockerfile.dir>
+        <!-- podman is also supported -->
+        <container.executable>docker</container.executable>
+        <!-- By default, the OCI image is build for the linux/amd64 platform -->
+        <!-- For Apple Silicon M2 Chip you have to change it to the linux/arm64 -->
+        <container.platform>linux/amd64</container.platform>
+        <!-- The -load option is a shortcut for or -output=type=docker -->
+        <!-- Could be changed by the -push option !-->
+        <container.build.extraarg>--load</container.build.extraarg>
     </properties>
 
     <modules>
@@ -46,6 +57,8 @@
         <module>order-service</module>
         <module>notification-service</module>
         <module>bookstore-webapp</module>
+        <module>config-server</module>
+        <module>discovery-server</module>
     </modules>
 
     <dependencyManagement>
@@ -109,5 +122,81 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>springboot</id>
+            <activation>
+                <file>
+                    <exists>src/main/resources/application.yml</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build-info</goal>
+                                </goals>
+                                <configuration>
+                                    <additionalProperties>
+                                        <encoding.source>${project.build.sourceEncoding}</encoding.source>
+                                        <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
+                                        <java.version>${java.version}</java.version>
+                                    </additionalProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>buildDocker</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>exec-maven-plugin</artifactId>
+                            <version>3.1.1</version>
+                            <executions>
+                                <execution>
+                                    <id>docker-build</id>
+                                    <phase>install</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>${container.executable}</executable>
+                                        <workingDirectory>${project.basedir}</workingDirectory>
+                                        <arguments>
+                                            <argument>build</argument>
+                                            <argument>-f</argument>
+                                            <argument>../docker/Dockerfile</argument>
+                                            <argument>--build-arg</argument>
+                                            <argument>ARTIFACT_NAME=${project.build.finalName}</argument>
+                                            <argument>--build-arg</argument>
+                                            <argument>EXPOSED_PORT=${docker.image.exposed.port}</argument>
+                                            <argument>--platform</argument>
+                                            <argument>${container.platform}</argument>
+                                            <argument>${container.build.extraarg}</argument>
+                                            <argument>-t</argument>
+                                            <argument>${docker.image.prefix}/bookstore-${project.artifactId}:latest</argument>
+                                            <argument>target</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

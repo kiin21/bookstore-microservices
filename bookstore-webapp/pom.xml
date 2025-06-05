@@ -13,6 +13,11 @@
 	<name>webapp</name>
 	<description>Bookstore Web Application - Frontend for the microservices</description>
 
+	<properties>
+		<docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+		<docker.image.exposed.port>8080</docker.image.exposed.port>
+	</properties>
+
 	<dependencies>
 		<!-- Spring Boot Web Starters -->
 		<dependency>

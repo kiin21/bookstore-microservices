@@ -1,5 +1,30 @@
 name: 'bookstore-microservices'
 services:
+
+  config-server:
+    image: anhkhoa217/bookstore-config-server:latest
+    container_name: config-server
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  discovery-server:
+    image: anhkhoa217/bookstore-discovery-server:latest
+    container_name: discovery-server
+    depends_on:
+      config-server:
+        condition: service_healthy
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
   catalog-service:
     image: anhkhoa217/bookstore-catalog-service
     container_name: catalog-service
@@ -15,12 +40,10 @@ services:
       - "8081:8081"
     restart: unless-stopped
     depends_on:
+      config-server:
+        condition: service_healthy
       catalog-db:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
     labels:
       logging: "promtail"
 
@@ -45,14 +68,12 @@ services:
       - "8082:8082"
     restart: unless-stopped
     depends_on:
+      config-server:
+        condition: service_healthy
       orders-db:
         condition: service_healthy
       bookstore-rabbitmq:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
     labels:
       logging: "promtail"
 
@@ -76,16 +97,14 @@ services:
       - "8083:8083"
     restart: unless-stopped
     depends_on:
+      config-server:
+        condition: service_healthy
       notifications-db:
         condition: service_healthy
       bookstore-rabbitmq:
         condition: service_healthy
       mailhog:
         condition: service_started
-    deploy:
-      resources:
-        limits:
-          memory: 700m
     labels:
       logging: "promtail"
 
@@ -101,10 +120,9 @@ services:
     ports:
       - "8989:8989"
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
+    depends_on:
+      config-server:
+        condition: service_healthy
     labels:
       logging: "promtail"
 
@@ -120,9 +138,8 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 700m
+    depends_on:
+      config-server:
+        condition: service_healthy
     labels:
       logging: "promtail"

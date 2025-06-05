@@ -7,3 +7,16 @@ spring:
 server:
   port: 8761
   shutdown: graceful
+
+---
+spring:
+  application:
+    name: discovery-server
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://config-server:8888
+
+server:
+  port: 8761
+  shutdown: graceful

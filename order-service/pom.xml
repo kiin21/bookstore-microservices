@@ -12,6 +12,11 @@
 	<name>order-service</name>
 	<description>Order Service for processing and managing orders</description>
 
+	<properties>
+		<docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+		<docker.image.exposed.port>8082</docker.image.exposed.port>
+	</properties>
+
 	<dependencies>
 		<!-- Spring Boot Core Starters -->
 		<dependency>

@@ -13,6 +13,11 @@
     <name>discovery-server</name>
     <description>discovery-server</description>
 
+    <properties>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+        <docker.image.exposed.port>8761</docker.image.exposed.port>
+    </properties>
+
     <dependencies>
         <!-- Spring Boot -->
         <dependency>
