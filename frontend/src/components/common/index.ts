@@ -4,13 +4,6 @@ export { default as ErrorMessage } from './ErrorMessage';
 export { default as LoadingSkeleton } from './LoadingSkeleton';
 export { default as Pagination } from './Pagination';
 
-// Export types
-export interface BookCardProps {
-    imageUrl: string;
-    name: string;
-    price: number;
-    onAddToCart?: (book: BookCardProps) => void;
-}
 
 export interface ErrorMessageProps {
     message: string;

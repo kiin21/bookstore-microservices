@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import type { ApiResponse, Product } from "../../types";
 import { BookCard, ErrorMessage, LoadingSkeleton as ProductSkeleton, Pagination } from "../common";
-import type { BookCardProps } from "../common";
 import { productService } from "../../services/productService";
+import { cartService } from "../../services/cartService";
 
 const Home: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -43,9 +43,16 @@ const Home: React.FC = () => {
         fetchProducts(1);
     }, [fetchProducts]);
 
-    const handleAddToCart = useCallback((book: BookCardProps) => {
-        // In a real app, this would add to cart state or make API call
-        console.log('Added to cart:', book);
+    const handleAddToCart = useCallback((book: Product) => {
+        const product: Product = {
+            code: book.code || '',
+            name: book.name,
+            imageUrl: book.imageUrl,
+            price: book.price,
+            description: book.description || ''
+        };
+
+        cartService.addToCart(product);
         alert(`Added "${book.name}" to cart!`);
     }, []);
 
@@ -114,7 +121,7 @@ const Home: React.FC = () => {
                                     imageUrl={product.imageUrl}
                                     name={product.name}
                                     price={product.price}
-                                    onAddToCart={handleAddToCart}
+                                    onAddToCart={() => handleAddToCart(product)}
                                 />
                             ))}
                         </div>
