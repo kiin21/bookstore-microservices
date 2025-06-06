@@ -83,7 +83,7 @@ tasks:
 
     ### Main application ###
     start:
-        deps: [format, build]
+#        deps: [format, build]
         cmds:
             - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
