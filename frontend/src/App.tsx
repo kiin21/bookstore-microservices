@@ -2,11 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { AuthenticatedRoute, ProtectedRoute } from "./components/auth";
 import {userService} from "./services";
-import { LoginPage, LogoutPage, Home, CartPage } from "./components/pages";
+import { LoginPage, LogoutPage, Home, CartPage, OrderPage, OrderDetailPage } from "./components/pages";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
-const Orders = () => <div>📦 Orders Page</div>;
 
 // Component để xử lý redirect sau khi đăng nhập Keycloak
 const KeycloakCallback = () => {
@@ -67,7 +65,13 @@ function App() {
                 {/* Protected route */}
                 <Route path="orders" element={
                     <AuthenticatedRoute>
-                        <Orders />
+                        <OrderPage />
+                    </AuthenticatedRoute>
+                } />
+
+                <Route path="orders/:orderNumber" element={
+                    <AuthenticatedRoute>
+                        <OrderDetailPage />
                     </AuthenticatedRoute>
                 } />
 

@@ -1,4 +1,5 @@
 import { cartService, userService } from '../services';
+import type { OrderDetails, OrderSummary } from '../types';
 
 export interface OrderAddress {
     addressLine1: string;
@@ -29,9 +30,7 @@ export interface OrderRequest {
 }
 
 export interface OrderResponse {
-    orderId: string;
-    status: string;
-    totalAmount: number;
+    orderNumber: string;
 }
 
 class OrderService {
@@ -39,7 +38,6 @@ class OrderService {
 
     public async placeOrder(orderData: OrderRequest): Promise<OrderResponse> {
         try {
-            // Kiểm tra trạng thái đăng nhập
             if (!userService.isLoggedIn()) {
                 throw new Error('User must be logged in to place an order');
             }
@@ -62,10 +60,63 @@ class OrderService {
 
             const orderResult = await response.json();
 
-            // Xóa giỏ hàng sau khi đặt hàng thành công
             cartService.clearCart();
 
             return orderResult;
+        } catch (error) {
+            console.error('Order service error:', error);
+            throw error;
+        }
+    }
+
+    public async getAllOrders(): Promise<OrderSummary[]> {
+        try {
+            if (!userService.isLoggedIn()) {
+                throw new Error('User must be logged in to see orders');
+            }
+
+            const token = userService.getToken();
+
+            const response = await fetch(this.apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.message || 'Failed to retrieve orders');
+            }
+
+            const result = await response.json();
+
+            return result;
+        } catch (error) {
+            console.error('Order service error:', error);
+            throw error;
+        }
+
+    }
+    
+    public async getOrderById(orderId: string): Promise<OrderDetails> {
+        try {
+            const token = userService.getToken();
+
+            const response = await fetch(`${this.apiUrl}/${orderId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.message || 'Failed to fetch order');
+            }
+
+            return response.json();
         } catch (error) {
             console.error('Order service error:', error);
             throw error;

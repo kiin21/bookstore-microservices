@@ -73,13 +73,11 @@ export const CartPage: React.FC = () => {
     const handleSubmitOrder = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Kiểm tra xem giỏ hàng có trống không
         if (cart.items.length === 0) {
             alert("Your cart is empty");
             return;
         }
 
-        // Kiểm tra đăng nhập
         if (!userService.isLoggedIn()) {
             sessionStorage.setItem('redirectAfterLogin', '/cart');
             navigate('/login');
@@ -105,12 +103,8 @@ export const CartPage: React.FC = () => {
             const result = await orderService.placeOrder(orderData);
 
             setCart({ items: [], totalAmount: 0 });
-
-            // Hiển thị thông báo thành công
-            alert(`Order placed successfully! Order ID: ${result.orderId}`);
-
-            // Chuyển hướng đến trang chi tiết đơn hàng
-            navigate(`/orders/${result.orderId}`);
+            alert(`Order placed successfully! Order ID: ${result.orderNumber}`);
+            navigate(`/orders/${result.orderNumber}`);
 
         } catch (error) {
             console.error('Error placing order:', error);
@@ -138,7 +132,7 @@ export const CartPage: React.FC = () => {
                     <p className="text-gray-600 mb-4">Your cart is empty</p>
                     <Link
                         to="/"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
+                        className="font-medium"
                     >
                         Continue Shopping
                     </Link>

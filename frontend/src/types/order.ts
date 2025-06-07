@@ -1,17 +1,5 @@
 import type { Product } from "./product";
 
-export interface Order {
-    id: number;
-    orderNumber: string;
-    userId: number;
-    items: OrderItem[];
-    totalAmount: number;
-    status: OrderStatus;
-    shippingAddress: Address;
-    billingAddress: Address;
-    createdAt: string;
-    updatedAt: string;
-}
 
 export interface OrderItem {
     id: number;
@@ -21,7 +9,37 @@ export interface OrderItem {
     totalPrice: number;
 }
 
-export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+export interface OrderSummary {
+    orderNumber: string;
+    status: OrderStatus;
+}
+
+interface Customer {
+    name: string;
+    email: string;
+    phone: string;
+}
+
+interface OrderItemResponse {
+    code: string;
+    name: string;
+    price: number;
+    quantity: number;
+    totalPrice: number;
+}
+
+export interface OrderDetails {
+    orderNumber: string;
+    user: string;
+    items: OrderItemResponse[];
+    customer: Customer;
+    deliveryAddress: Address;
+    comment?: string;
+    createdAt: string;
+    totalAmount: number;
+}
+
+export type OrderStatus = 'NEW' | 'IN_PROCESS' | 'DELIVERED' | 'CANCELLED' | 'ERROR';
 
 export interface Address {
     id?: number;
