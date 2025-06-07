@@ -4,7 +4,7 @@ import { BookCard, ErrorMessage, LoadingSkeleton as ProductSkeleton, Pagination 
 import { productService } from "../../services/productService";
 import { cartService } from "../../services/cartService";
 
-const Home: React.FC = () => {
+export const Home: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="bg-gray-200">
             {/* Hero Section */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-12 mb-8">
                 <div className="container mx-auto px-4 text-center">
@@ -92,20 +92,6 @@ const Home: React.FC = () => {
 
             {/* Products Section */}
             <div className="container mx-auto px-4">
-                <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Featured Books</h2>
-                    {apiResponse && (
-                        <p className="text-gray-600">
-                            Showing {products.length} of {apiResponse.totalElements} books
-                            {apiResponse.totalPages > 1 && (
-                                <span className="ml-2">
-                                    (Page {apiResponse.pageNumber} of {apiResponse.totalPages})
-                                </span>
-                            )}
-                        </p>
-                    )}
-                </div>
-
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                         {Array.from({ length: 10 }).map((_, index) => (
@@ -127,15 +113,13 @@ const Home: React.FC = () => {
                         </div>
 
                         {apiResponse && apiResponse.totalPages > 1 && (
-                            <div className="mt-8">
-                                <Pagination
-                                    currentPage={apiResponse.pageNumber}
-                                    totalPages={apiResponse.totalPages}
-                                    hasNext={apiResponse.hasNext}
-                                    hasPrevious={apiResponse.hasPrevious}
-                                    onPageChange={handlePageChange}
-                                />
-                            </div>
+                            <Pagination
+                                currentPage={apiResponse.pageNumber}
+                                totalPages={apiResponse.totalPages}
+                                hasNext={apiResponse.hasNext}
+                                hasPrevious={apiResponse.hasPrevious}
+                                onPageChange={handlePageChange}
+                            />
                         )}
                     </>
                 ) : (
@@ -154,5 +138,3 @@ const Home: React.FC = () => {
         </div>
     );
 };
-
-export default Home;

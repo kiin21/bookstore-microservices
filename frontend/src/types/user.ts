@@ -32,4 +32,4 @@ export interface RegisterRequest {
     firstName: string;
     lastName: string;
     phone?: string;
-  }
+}

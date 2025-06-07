@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@react-keycloak/web": "^3.4.0",
+    "keycloak-ts": "^1.0.0"
+  }
+}

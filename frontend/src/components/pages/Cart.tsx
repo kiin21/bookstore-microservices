@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { cartService } from "../../services/cartService";
+import { Link, useNavigate } from "react-router-dom";
 import type { Cart } from "../../types";
+import { cartService, orderService, userService } from "../../services";
 
-const CartPage: React.FC = () => {
+export const CartPage: React.FC = () => {
+    const navigate = useNavigate();
     const [cart, setCart] = useState<Cart>({ items: [], totalAmount: 0 });
     const [loading, setLoading] = useState<boolean>(true);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     // Customer information form state
     const [customerInfo, setCustomerInfo] = useState({
@@ -70,7 +72,53 @@ const CartPage: React.FC = () => {
 
     const handleSubmitOrder = async (e: React.FormEvent) => {
         e.preventDefault();
-        // implement later
+
+        // Kiểm tra xem giỏ hàng có trống không
+        if (cart.items.length === 0) {
+            alert("Your cart is empty");
+            return;
+        }
+
+        // Kiểm tra đăng nhập
+        if (!userService.isLoggedIn()) {
+            sessionStorage.setItem('redirectAfterLogin', '/cart');
+            navigate('/login');
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const orderData = {
+                items: cart.items.map(item => ({
+                    code: item.code,
+                    quantity: item.quantity
+                })),
+                customer: customerInfo.customer,
+                deliveryAddress: customerInfo.deliveryAddress
+            };
+
+            const result = await orderService.placeOrder(orderData);
+
+            setCart({ items: [], totalAmount: 0 });
+
+            // Hiển thị thông báo thành công
+            alert(`Order placed successfully! Order ID: ${result.orderId}`);
+
+            // Chuyển hướng đến trang chi tiết đơn hàng
+            navigate(`/orders/${result.orderId}`);
+
+        } catch (error) {
+            console.error('Error placing order:', error);
+
+            if (error instanceof Error) {
+                alert(`Failed to place order: ${error.message}`);
+            } else {
+                alert('Failed to place order. Please try again.');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (loading) {
@@ -186,9 +234,9 @@ const CartPage: React.FC = () => {
                         </Link>
 
                         <div className="flex space-x-2">
-                            <button onClick={handleClearCart}> Clear Cart </button>
+                            <button className="bg-red-700 text-white" onClick={handleClearCart}> Clear Cart </button>
 
-                            <button onClick={() => setShowCheckoutForm(!showCheckoutForm)} >
+                            <button className="bg-blue-400 text-white" onClick={() => setShowCheckoutForm(!showCheckoutForm)} >
                                 {showCheckoutForm ? 'Hide Checkout Form' : 'Proceed to Checkout'}
                             </button>
                         </div>
@@ -321,10 +369,10 @@ const CartPage: React.FC = () => {
                                 <div className="text-right">
                                     <button
                                         type="submit"
-                                        className="bg-red-600 hover:bg-blue-700 text-black font-medium py-2 px-6 rounded-lg"
-                                        disabled={loading}
+                                        className="bg-green-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg"
+                                        disabled={isSubmitting}
                                     >
-                                        {loading ? 'Processing...' : 'Place Order'}
+                                        {isSubmitting ? 'Processing...' : 'Place Order'}
                                     </button>
                                 </div>
                             </form>
@@ -335,5 +383,3 @@ const CartPage: React.FC = () => {
         </div>
     );
 };
-
-export default CartPage;

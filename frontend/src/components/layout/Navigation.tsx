@@ -1,38 +1,27 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { userService } from "../../services";
 
-interface NavLink {
-    name: string;
-    path: string;
-}
-
-const navLinks: NavLink[] = [
-    { name: "Cart", path: "/cart" },
-    { name: "Orders", path: "/orders" },
-];
-
-const Navigation: React.FC = () => {
-    const location = useLocation();
+const Navigation = () => {
+    const isAuthenticated = userService.isLoggedIn();
 
     return (
-        <nav className="bg-gray-800 text-white shadow-md w-full">
+        <nav className="bg-gray-800 text-white shadow-md w-full fixed top-0 z-10">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="/images/books.png" alt="Books Logo" width="40" height="40" className="mr-2" />
                     <span className="text-xl font-bold">BookStore</span>
                 </Link>
-                <ul className="flex space-x-6">
-                    {navLinks.map((link) => (
-                        <li key={link.path}>
-                            <Link
-                                to={link.path}
-                                className={`hover:underline ${location.pathname === link.path ? "text-yellow-400" : ""}`}
-                            >
-                                {link.name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                <div className="flex items-center space-x-6">
+                    {isAuthenticated && (
+                        <Link to="/orders"> Orders </Link>
+                    )}
+                    <Link to="/cart"> Cart </Link>
+                    {isAuthenticated ? (
+                        <Link to="/logout"> Logout </Link>
+                    ) : (
+                        <Link to="/login"> Login </Link>
+                    )}
+                </div>
             </div>
         </nav>
     );

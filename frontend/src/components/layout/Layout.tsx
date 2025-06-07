@@ -1,17 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Navigation from "./Navigation";
-import Footer from "./Footer";
 
 const Layout = () => {
     return (
-        <div className="flex flex-col min-h-screen w-full">
+        <div className="flex flex-col min-h-screen">
             <Navigation />
-            <main className="flex-1 w-full bg-gray-100">
-                <div className="container mx-auto px-4 py-4">
-                    <Outlet />
-                </div>
+            <main className="flex-grow pt-16">
+                <Outlet />
             </main>
-            <Footer />
+            <footer className="bg-gray-800 text-white py-4 text-center">
+                <div className="container mx-auto">
+                    <p>© {new Date().getFullYear()} BookStore. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
     );
 };

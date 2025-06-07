@@ -64,6 +64,7 @@ tasks:
             - "docker push anhkhoa217/bookstore-notification-service:latest"
             - "docker push anhkhoa217/bookstore-api-gateway:latest"
             - "docker push anhkhoa217/bookstore-webapp:latest"
+            - "docker image prune"
 
     ### Monitoring ###
     start_monitoring:
@@ -83,7 +84,7 @@ tasks:
 
     ### Main application ###
     start:
-#        deps: [format, build]
+        deps: [format, build]
         cmds:
             - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
