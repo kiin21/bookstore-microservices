@@ -91,6 +91,10 @@ export const CartPage: React.FC = () => {
         try {
             const orderData = {
                 items: cart.items.map(item => ({
+                    name: item.name,
+                    description: item.description,
+                    imageUrl: item.imageUrl,
+                    price: item.price,
                     code: item.code,
                     quantity: item.quantity
                 })),
