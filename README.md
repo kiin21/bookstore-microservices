@@ -193,3 +193,18 @@ The **API Gateway** is built using Spring Cloud Gateway
 The project uses Spotless Maven plugin for code formatting. To format your code:
 ```bash
 ./mvnw spotless:apply
+```
+
+**How to export realm configuration from Keycloak**
+
+```bash
+docker exec <container_id_or_name> \
+  /opt/keycloak/bin/kc.sh export \
+  --dir=/opt/keycloak/data/import \
+  --realm=<your-realm-name> \
+  --users=realm_file
+
+docker cp <container_id_or_name>:/opt/keycloak/data/import ./
+```
+
+Run with cmd in **Taskfile** (install Taskfile CLI first):

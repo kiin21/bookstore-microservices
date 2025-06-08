@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { userService } from "../../services";
+import { UserService } from "../../services";
 
 const Navigation = () => {
-    const isAuthenticated = userService.isLoggedIn();
+    const isAuthenticated = UserService.isLoggedIn();
 
     return (
         <nav className="bg-gray-800 text-white shadow-md w-full fixed top-0 z-10">

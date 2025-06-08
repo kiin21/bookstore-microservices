@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import type { OrderDetails } from "../../types";
-import { orderService } from "../../services";
+import { OrderService } from "../../services";
+
+const orderService = new OrderService();
 
 export const OrderDetailPage: React.FC = () => {
     const { orderNumber } = useParams<{ orderNumber: string }>();

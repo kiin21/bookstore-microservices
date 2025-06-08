@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { AuthenticatedRoute, ProtectedRoute } from "./components/auth";
-import {userService} from "./services";
+import { UserService } from "./services";
 import { LoginPage, LogoutPage, Home, CartPage, OrderPage, OrderDetailPage } from "./components/pages";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -31,7 +31,7 @@ function App() {
             if (location.search.includes('state=') && location.search.includes('code=')) {
                 // Đây là callback từ Keycloak, khởi tạo lại Keycloak để xử lý token
                 try {
-                    await userService.getKeycloak().init({
+                    await UserService.getKeycloak().init({
                         onLoad: 'check-sso',
                         checkLoginIframe: false
                     });

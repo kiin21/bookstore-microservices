@@ -1,8 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import type { ApiResponse, Product } from "../../types";
 import { BookCard, ErrorMessage, LoadingSkeleton as ProductSkeleton, Pagination } from "../common";
-import { productService } from "../../services/productService";
-import { cartService } from "../../services/cartService";
+import { ProductService } from "../../services/domain/ProductService";
+import { CartService } from "../../services/domain/CartService";
+
+const productService = new ProductService();
+const cartService = new CartService();
 
 export const Home: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);

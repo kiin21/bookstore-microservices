@@ -1,5 +1,5 @@
 import React from 'react';
-import { userService } from '../../services';
+import { UserService } from '../../services';
 import { useLocation } from 'react-router-dom';
 
 export const LoginPage: React.FC = () => {
@@ -11,7 +11,7 @@ export const LoginPage: React.FC = () => {
         sessionStorage.setItem('redirectAfterLogin', from);
 
         // Sử dụng URL hiện tại làm redirectUri cho Keycloak
-        userService.doLogin(window.location.origin);
+        UserService.doLogin(window.location.origin);
     };
 
     return (

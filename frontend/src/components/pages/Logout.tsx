@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { userService } from '../../services';
+import { UserService } from '../../services';
 import { Navigate } from 'react-router-dom';
 
 export const LogoutPage: React.FC = () => {
     useEffect(() => {
-        userService.doLogout();
+        UserService.doLogout();
     }, []);
 
     return <Navigate to="/" />;

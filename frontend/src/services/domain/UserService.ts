@@ -1,4 +1,4 @@
-import keycloak from "../keycloak";
+import keycloak from "../../keycloak";
 
 const isSSO = true;
 
@@ -41,7 +41,7 @@ const getUsername = (): string => keycloak.tokenParsed?.preferred_username || ""
 const hasRole = (roles: string[]): boolean =>
     roles.some((role: string) => keycloak.hasRealmRole(role));
 
-export const userService = {
+export const UserService = {
     initKeycloak,
     doLogin,
     doLogout,

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { userService } from "../../services";
+import { UserService } from "../../services";
 import type { JSX } from "react";
 
 interface AuthenticatedRouteProps {
@@ -8,7 +8,7 @@ interface AuthenticatedRouteProps {
 
 export function AuthenticatedRoute({ children }: AuthenticatedRouteProps) {
     const location = useLocation();
-    const isAuthenticated = userService.isLoggedIn();
+    const isAuthenticated = UserService.isLoggedIn();
 
     if (isAuthenticated) {
         return children;

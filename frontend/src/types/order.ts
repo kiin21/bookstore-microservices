@@ -49,3 +49,35 @@ export interface Address {
     zipCode: string;
     country: string;
 }
+
+export interface OrderAddress {
+    addressLine1: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+}
+
+export interface OrderCustomer {
+    name: string;
+    email: string;
+    phone: string;
+}
+
+export interface OrderRequest {
+    items: Array<{
+        code: string;
+        name: string;
+        description: string;
+        imageUrl: string;
+        price: number;
+        quantity: number;
+    }>;
+    customer: OrderCustomer;
+    deliveryAddress: OrderAddress;
+}
+
+export interface OrderResponse {
+    orderNumber: string;
+}

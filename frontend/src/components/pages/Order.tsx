@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { OrderSummary, OrderStatus } from "../../types";
-import { orderService } from "../../services";
+import { OrderService } from "../../services/domain/OrderService";
+
+const orderService = new OrderService();
 
 export const OrderPage: React.FC = () => {
     const navigate = useNavigate();

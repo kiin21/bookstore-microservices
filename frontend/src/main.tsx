@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
-import {userService} from './services'
+import { UserService } from './services'
 import './index.css'
 
 // Khởi tạo action object - giả sử đây là store hoặc state manager của bạn
@@ -34,7 +34,7 @@ const renderApp = () => {
 };
 
 // Khởi tạo Keycloak trước khi render ứng dụng
-userService.initKeycloak(renderApp, () => {
+UserService.initKeycloak(renderApp, () => {
   action.clearAuthentication();
   action.clearSearchInfo();
   action.clearSitesMap();

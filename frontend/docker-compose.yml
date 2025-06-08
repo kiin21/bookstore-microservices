@@ -1,0 +1,16 @@
+services:
+  frontend:
+    build:
+      # context: ../../frontend 
+      dockerfile: Dockerfile
+    container_name: "bookstore-frontend"
+    ports:
+      - "80:80"
+    networks:
+      - bookstore-microservices_default
+
+networks:
+  bookstore-microservices_default:
+    external: true
+    # depends_on:
+    #   - api-gateway

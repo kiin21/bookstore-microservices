@@ -12,7 +12,6 @@ EXPOSE ${EXPOSED_PORT}
 
 ENV SPRING_PROFILES_ACTIVE=docker
 
-# Create a non-root user
 RUN addgroup --system spring && adduser --system spring --ingroup spring
 USER spring:spring
 

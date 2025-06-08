@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { Cart } from "../../types";
-import { cartService, orderService, userService } from "../../services";
+import { CartService } from "../../services/domain/CartService";
+import { OrderService } from "../../services/domain/OrderService";
+import { UserService } from "../../services/domain/UserService";
+
+
+const cartService = new CartService();
+const orderService = new OrderService();
 
 export const CartPage: React.FC = () => {
     const navigate = useNavigate();
@@ -78,7 +84,7 @@ export const CartPage: React.FC = () => {
             return;
         }
 
-        if (!userService.isLoggedIn()) {
+        if (!UserService.isLoggedIn()) {
             sessionStorage.setItem('redirectAfterLogin', '/cart');
             navigate('/login');
             return;
@@ -100,11 +106,11 @@ export const CartPage: React.FC = () => {
                 deliveryAddress: customerInfo.deliveryAddress
             };
 
-            const result = await orderService.placeOrder(orderData);
+            const orderNumber = await orderService.placeOrder(orderData);
 
             setCart({ items: [], totalAmount: 0 });
-            alert(`Order placed successfully! Order ID: ${result.orderNumber}`);
-            navigate(`/orders/${result.orderNumber}`);
+            alert(`Order placed successfully! Order ID: ${orderNumber}`);
+            navigate(`/orders/${orderNumber}`);
 
         } catch (error) {
             console.error('Error placing order:', error);

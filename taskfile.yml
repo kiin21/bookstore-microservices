@@ -32,6 +32,7 @@ tasks:
             - "{{.MVNW}} -pl order-service clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl notification-service clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl api-gateway clean install -PbuildDocker -DskipTests"
+            - "cd frontend && docker build -t bookstore-frontend:latest ."
 
     build_single:
         desc: "Build Docker image for a single service. Usage: task build_single SERVICE=config-server"
@@ -62,7 +63,7 @@ tasks:
             - "docker push anhkhoa217/bookstore-order-service:latest"
             - "docker push anhkhoa217/bookstore-notification-service:latest"
             - "docker push anhkhoa217/bookstore-api-gateway:latest"
-            - "docker image prune"
+
 
     ### Monitoring ###
     start_monitoring:

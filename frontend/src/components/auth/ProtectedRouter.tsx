@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { userService } from "../../services";
+import { UserService } from "../../services";
 import type { JSX } from "react";
 
 interface ProtectedRouteProps {
@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-    const isAuthenticated = userService.isLoggedIn();
+    const isAuthenticated = UserService.isLoggedIn();
 
     if (!isAuthenticated) {
         return children;
