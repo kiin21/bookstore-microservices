@@ -207,4 +207,12 @@ docker exec <container_id_or_name> \
 docker cp <container_id_or_name>:/opt/keycloak/data/import ./
 ```
 
-Run with cmd in **Taskfile** (install Taskfile CLI first):
+## How to run ?
+For Docker users:
+- Install [**Taskfile**](https://taskfile.dev/installation/)
+- Run 
+```bash
+task start
+```
+- Add '127.0.0.1 localhost' to your `/etc/hosts` file if not already present.
+- Go to [http://localhost](http://localhost) to access the web app.

@@ -127,9 +127,7 @@ services:
       logging: "promtail"
 
   frontend:
-    build:
-      context: ../../frontend 
-      dockerfile: Dockerfile
+    image: bookstore-frontend:latest
     container_name: "bookstore-frontend"
     ports:
       - "80:80"
