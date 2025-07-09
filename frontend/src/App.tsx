@@ -12,7 +12,7 @@ const KeycloakCallback = () => {
 
     useEffect(() => {
         // Lấy URL đích từ sessionStorage
-        const redirectPath = sessionStorage.getItem('redirectAfterLogin') || '/';
+        const redirectPath = sessionStorage.getItem('redirectAfterLogin') ?? '/';
         sessionStorage.removeItem('redirectAfterLogin');
 
         // Chuyển hướng đến URL đích

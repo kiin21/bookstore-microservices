@@ -26,13 +26,14 @@ tasks:
 
     build:
         cmds:
+            - "docker image prune -f"
             - "{{.MVNW}} -pl config-server clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl discovery-server clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl catalog-service clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl order-service clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl notification-service clean install -PbuildDocker -DskipTests"
             - "{{.MVNW}} -pl api-gateway clean install -PbuildDocker -DskipTests"
-            - "cd frontend && docker build --no-cache -t bookstore-frontend:latest ."
+            - "cd frontend && docker build --no-cache -t anhkhoa217/bookstore-frontend:latest ."
 
     build_single:
         desc: "Build Docker image for a single service. Usage: task build_single SERVICE=config-server"
@@ -56,13 +57,15 @@ tasks:
             - task: start_infra
 
     ### Push image ###
-    pushImages:
+    push_images:
         cmds:
             - "docker push anhkhoa217/bookstore-config-server:latest"
             - "docker push anhkhoa217/bookstore-discovery-server:latest"
             - "docker push anhkhoa217/bookstore-order-service:latest"
+            - "docker push anhkhoa217/bookstore-catalog-service:latest"
             - "docker push anhkhoa217/bookstore-notification-service:latest"
             - "docker push anhkhoa217/bookstore-api-gateway:latest"
+            - "docker push anhkhoa217/bookstore-frontend:latest"
 
 
     ### Monitoring ###
@@ -82,15 +85,19 @@ tasks:
             - task: start_monitoring
 
     ### Main application ###
-    start:
+    fresh_start:
         deps: [format, build]
         cmds:
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
+
+    start:
+        cmds:
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
     stop:
         cmds:
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} stop"
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} rm -f"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} stop"
+            - "docker compose -f {{.INFRA_DC_FILE}}-f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} rm -f"
 
     restart:
         cmds:

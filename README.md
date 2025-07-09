@@ -213,6 +213,14 @@ For Docker users:
 - Run 
 ```bash
 task start
+# Or if you dont have Taskfile installed, you can run:
+cd deployment/docker-compose
+docker compose -f infra.yml up -d
+## wait for all services to start
+docker compose -f apps.yml up -d
+## (optional) monitoring
+docker compose -f monitoring.yml up -d
+
 ```
 - Add '127.0.0.1 localhost' to your `/etc/hosts` file if not already present.
 - Go to [http://localhost](http://localhost) to access the web app.

@@ -1,11 +1,16 @@
-name: 'bookstore-microservices'
+name: "bookstore-microservices"
 services:
-
   config-server:
     image: anhkhoa217/bookstore-config-server:latest
     container_name: config-server
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8888/actuator/health",
+        ]
       interval: 5s
       timeout: 2s
       retries: 5
@@ -26,7 +31,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
 
   catalog-service:
-    image: anhkhoa217/bookstore-catalog-service
+    image: anhkhoa217/bookstore-catalog-service:latest
     container_name: catalog-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -35,7 +40,7 @@ services:
       - DB_PASSWORD=postgres
       - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/catalog
       - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - MANAGEMENT_OTLP_TRACING_ENDPOINT=http://tempo:4317
     ports:
       - "8081:8081"
     depends_on:
@@ -43,11 +48,13 @@ services:
         condition: service_healthy
       catalog-db:
         condition: service_healthy
+      discovery-server:
+        condition: service_started
     labels:
       logging: "promtail"
 
   order-service:
-    image: anhkhoa217/bookstore-order-service
+    image: anhkhoa217/bookstore-order-service:latest
     container_name: order-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -62,7 +69,7 @@ services:
       - OAUTH2_SERVER_URL=http://keycloak:9191
       - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/orders
       - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - MANAGEMENT_OTLP_TRACING_ENDPOINT=http://tempo:4317
     ports:
       - "8082:8082"
     depends_on:
@@ -72,11 +79,13 @@ services:
         condition: service_healthy
       bookstore-rabbitmq:
         condition: service_healthy
+      discovery-server:
+        condition: service_started
     labels:
       logging: "promtail"
 
   notification-service:
-    image: anhkhoa217/bookstore-notification-service
+    image: anhkhoa217/bookstore-notification-service:latest
     container_name: notification-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -90,7 +99,7 @@ services:
       - MAIL_HOST=mailhog
       - MAIL_PORT=1025
       - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - MANAGEMENT_OTLP_TRACING_ENDPOINT=http://tempo:4317
     ports:
       - "8083:8083"
     depends_on:
@@ -102,28 +111,32 @@ services:
         condition: service_healthy
       mailhog:
         condition: service_started
+      discovery-server:
+        condition: service_started
     labels:
       logging: "promtail"
 
   api-gateway:
-    image: anhkhoa217/bookstore-api-gateway
+    image: anhkhoa217/bookstore-api-gateway:latest
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - CATALOG_SERVICE_URL=http://catalog-service:8081
       - ORDER_SERVICE_URL=http://order-service:8082
       - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - MANAGEMENT_OTLP_TRACING_ENDPOINT=http://tempo:4317
     ports:
       - "8989:8989"
     depends_on:
       config-server:
         condition: service_healthy
+      discovery-server:
+        condition: service_started
     labels:
       logging: "promtail"
 
   frontend:
-    image: bookstore-frontend:latest
+    image: anhkhoa217/bookstore-frontend:latest
     container_name: "bookstore-frontend"
     ports:
       - "80:80"

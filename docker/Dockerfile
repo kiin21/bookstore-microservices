@@ -1,16 +1,14 @@
 FROM eclipse-temurin:21 AS builder
-WORKDIR application
+WORKDIR /application
 ARG ARTIFACT_NAME
 COPY ${ARTIFACT_NAME}.jar application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
 FROM eclipse-temurin:21-jre
-WORKDIR application
+WORKDIR /application
 
 ARG EXPOSED_PORT
 EXPOSE ${EXPOSED_PORT}
-
-ENV SPRING_PROFILES_ACTIVE=docker
 
 RUN addgroup --system spring && adduser --system spring --ingroup spring
 USER spring:spring

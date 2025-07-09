@@ -5,7 +5,7 @@ const Navigation = () => {
     const isAuthenticated = UserService.isLoggedIn();
 
     return (
-        <nav className="bg-gray-800 text-white shadow-md w-full fixed top-0 z-10">
+        <nav className="bg-gray-800 text-black shadow-md w-full fixed top-0 z-10">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="/images/books.png" alt="Books Logo" width="40" height="40" className="mr-2" />

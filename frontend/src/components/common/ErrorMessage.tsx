@@ -9,7 +9,7 @@ const ErrorMessage = ({ message, onRetry }: { message: string; onRetry: () => vo
         <p className="text-gray-600 mb-4">{message}</p>
         <button
             onClick={onRetry}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-lg transition-colors"
         >
             Try Again
         </button>

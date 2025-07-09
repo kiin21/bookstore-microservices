@@ -186,7 +186,7 @@
                                             <argument>${container.build.extraarg}</argument>
                                             <argument>-t</argument>
                                             <argument>${docker.image.prefix}/bookstore-${project.artifactId}:latest</argument>
-                                            <argument>target</argument>
+                                            <argument>${project.build.directory}</argument>
                                         </arguments>
                                     </configuration>
                                 </execution>

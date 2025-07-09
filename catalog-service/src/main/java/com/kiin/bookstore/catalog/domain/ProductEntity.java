@@ -26,6 +26,7 @@ class ProductEntity {
     @NotBlank(message = "Product name is required") @Column(nullable = false)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     private String imageUrl;

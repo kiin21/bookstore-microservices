@@ -6,17 +6,17 @@
 		<groupId>com.kiin</groupId>
 		<artifactId>bookstore-microservices</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>api-gateway</artifactId>
+	<packaging>jar</packaging>
 	<name>api-gateway</name>
 	<description>API Gateway for Bookstore Microservices</description>
 
-	<properties>
-		<docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
-		<docker.image.exposed.port>8084</docker.image.exposed.port>
-	</properties>
+    <properties>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+        <docker.image.exposed.port>8989</docker.image.exposed.port>
+    </properties>
 
 	<dependencies>
 		<!-- Spring Cloud Gateway -->
@@ -49,10 +49,6 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-tracing-bridge-otel</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.opentelemetry</groupId>
-			<artifactId>opentelemetry-exporter-zipkin</artifactId>
-		</dependency>
 
 		<!-- Documentation -->
 		<dependency>
@@ -69,29 +65,17 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<image>
-						<name>${dockerImageName}</name>
-					</image>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build-info</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-						
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	<profiles>
+		<profile>
+			<id>buildDocker</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

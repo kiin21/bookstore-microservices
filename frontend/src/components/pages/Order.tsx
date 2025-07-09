@@ -76,13 +76,13 @@ export const OrderPage: React.FC = () => {
             <h1 className="text-2xl font-bold mb-6">My Orders</h1>
 
             {/* Filter bar */}
-            <div className="bg-white p-4 mb-6 rounded-lg shadow-sm flex flex-wrap items-center gap-4">
+            <div className="bg-black p-4 mb-6 rounded-lg shadow-sm flex flex-wrap items-center gap-4">
                 <div className="font-medium">Filter by status:</div>
                 <div className="flex flex-wrap gap-2">
                     <button
                         onClick={() => handleFilterChange('ALL')}
                         className={`px-3 py-1 rounded-full text-sm ${statusFilter === 'ALL'
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-blue-600 text-black'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             }`}
                     >
@@ -93,7 +93,7 @@ export const OrderPage: React.FC = () => {
                             key={status}
                             onClick={() => handleFilterChange(status as OrderStatus)}
                             className={`px-3 py-1 rounded-full text-sm ${statusFilter === status
-                                ? 'bg-blue-600 text-white'
+                                ? 'bg-blue-600 text-black'
                                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                 }`}
                         >
@@ -103,7 +103,7 @@ export const OrderPage: React.FC = () => {
                 </div>
                 <button
                     onClick={handleRefresh}
-                    className="ml-auto px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md text-sm flex items-center"
+                    className="ml-auto px-3 py-1 bg-gray-100 hover:bg-gray-200 text-black rounded-md text-sm flex items-center"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -127,7 +127,7 @@ export const OrderPage: React.FC = () => {
                             <p className="text-gray-600 mb-4">You don't have any orders yet</p>
                             <Link
                                 to="/"
-                                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md"
+                                        className="inline-block bg-blue-600 hover:bg-blue-700 text-black font-medium py-2 px-4 rounded-md"
                             >
                                 Start Shopping
                             </Link>
@@ -137,7 +137,7 @@ export const OrderPage: React.FC = () => {
                             <p className="text-gray-600 mb-4">No orders match your filter criteria</p>
                             <button
                                 onClick={() => handleFilterChange('ALL')}
-                                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md"
+                                            className="inline-block bg-blue-600 hover:bg-blue-700 text-black font-medium py-2 px-4 rounded-md"
                             >
                                 Show All Orders
                             </button>
