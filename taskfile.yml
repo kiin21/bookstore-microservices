@@ -5,7 +5,6 @@ vars:
     MVNW: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
     DC_DIR: "deployment/docker-compose"
     INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
-    MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
     APP_DC_FILE: "{{.DC_DIR}}/apps.yml"
     SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
 
@@ -35,26 +34,26 @@ tasks:
             - "{{.MVNW}} -pl api-gateway clean install -PbuildDocker -DskipTests"
             - "cd frontend && docker build --no-cache -t anhkhoa217/bookstore-frontend:latest ."
 
-    build_single:
+    build-single:
         desc: "Build Docker image for a single service. Usage: task build_single SERVICE=config-server"
         cmds:
             - "{{.MVNW}} -pl {{.SERVICE}} clean install -PbuildDocker -DskipTests"
 
     ### Infrastructure ###
-    start_infra:
+    start-infra:
         cmds:
             - "docker compose -f {{.INFRA_DC_FILE}} up -d"
 
-    stop_infra:
+    stop-infra:
         cmds:
             - "docker compose -f {{.INFRA_DC_FILE}} stop"
             - "docker compose -f {{.INFRA_DC_FILE}} rm -f"
 
-    restart_infra:
+    restart-infra:
         cmds:
-            - task: stop_infra
+            - task: stop-infra
             - task: sleep
-            - task: start_infra
+            - task: start-infra
 
     ### Push image ###
     push_images:
@@ -67,43 +66,42 @@ tasks:
             - "docker push anhkhoa217/bookstore-api-gateway:latest"
             - "docker push anhkhoa217/bookstore-frontend:latest"
 
-
-    ### Monitoring ###
-    start_monitoring:
+    restart-monitoring:
         cmds:
-            - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
-
-    stop_monitoring:
-        cmds:
-            - "docker compose -f {{.MONITORING_DC_FILE}} stop"
-            - "docker compose -f {{.MONITORING_DC_FILE}} rm -f"
-
-    restart_monitoring:
-        cmds:
-            - task: stop_monitoring
+            - task: stop-monitoring
             - task: sleep
-            - task: start_monitoring
+            - task: start-monitoring
 
     ### Main application ###
-    fresh_start:
+    fresh-start:
         deps: [format, build]
         cmds:
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
 
     start:
         cmds:
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} up -d"
+
+    fresh_stop:
+        cmds:
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} stop"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} rm -f"
 
     stop:
         cmds:
-            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} stop"
-            - "docker compose -f {{.INFRA_DC_FILE}}-f {{.MONITORING_DC_FILE}} -f {{.APP_DC_FILE}} rm -f"
+            - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APP_DC_FILE}} stop"
 
     restart:
         cmds:
             - task: stop
             - task: sleep
             - task: start
+
+    fresh-restart:
+        cmds:
+            - task: fresh-stop
+            - task: sleep
+            - task: fresh-start
     ### Chore: sleep ###
     sleep:
         vars:

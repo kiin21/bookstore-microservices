@@ -1,6 +1,5 @@
 package com.kiin.bookstore.catalog.domain;
 
-import com.kiin.bookstore.catalog.ApplicationProperties;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,17 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ApplicationProperties properties;
 
-    ProductService(ProductRepository productRepository, ApplicationProperties properties) {
+    ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.properties = properties;
     }
 
-    public PagedResult<Product> getProducts(int pageNo) {
+    public PagedResult<Product> getProducts(int pageNo, int pageSize) {
         Sort sort = Sort.by("name").ascending();
         pageNo = pageNo <= 1 ? 0 : pageNo - 1;
-        Pageable pageable = PageRequest.of(pageNo, properties.pageSize(), sort);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Product> productsPage = productRepository.findAll(pageable).map(ProductMapper::toProduct);
 
         return new PagedResult<>(

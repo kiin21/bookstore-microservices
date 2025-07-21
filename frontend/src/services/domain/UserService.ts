@@ -38,9 +38,6 @@ const isLoggedIn = (): boolean => !!keycloak.authenticated;
 
 const getUsername = (): string => keycloak.tokenParsed?.preferred_username || "";
 
-const hasRole = (roles: string[]): boolean =>
-    roles.some((role: string) => keycloak.hasRealmRole(role));
-
 export const UserService = {
     initKeycloak,
     doLogin,
@@ -48,6 +45,5 @@ export const UserService = {
     isLoggedIn,
     getToken,
     getUsername,
-    hasRole,
     getKeycloak
 };
